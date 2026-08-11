@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Libro {
+private:
+    string titulo;
+    string autor;
+    int anioPublicacion;
+
+public:
+    Libro(string t, string a, int anio) {
+        titulo = t;
+        autor = a;
+        anioPublicacion = anio;
+    }
+
+    int getAnio() const { return anioPublicacion; }
+
+    void mostrarInfo() {
+        cout << "Titulo: " << titulo << " | Autor: " << autor << " | Anio: " << anioPublicacion << endl;
+    }
+};
+
+// Comparacion ascendente (de mas antiguo a mas reciente)
+bool compararPorAnio(const Libro &l1, const Libro &l2) {
+    return l1.getAnio() < l2.getAnio();
+}
+
+int main() {
+    vector<Libro> libros;
+    int cant;
+
+    cout << "Ingrese la cantidad de libros: ";
+    cin >> cant;
+
+    for (int i = 0; i < cant; i++) {
+        string t, a;
+        int anio;
+        cout << "\n--- Libro " << i + 1 << " ---\n";
+        cout << "Titulo: "; cin >> t;
+        cout << "Autor: "; cin >> a;
+        cout << "Anio de publicacion: "; cin >> anio;
+        libros.push_back(Libro(t, a, anio));
+    }
+
+    sort(libros.begin(), libros.end(), compararPorAnio);
+
+    cout << "\n=== LIBROS ORDENADOS POR ANIO (MAS ANTIGUO A MAS RECIENTE) ===\n";
+    for (int i = 0; i < libros.size(); i++) {
+        libros[i].mostrarInfo();
+    }
+
+    return 0;
+}

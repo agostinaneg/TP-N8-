@@ -1,0 +1,96 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class CuentaBancaria {
+private:
+    int numeroCuenta;
+    string titular;
+    double saldo;
+
+public:
+    CuentaBancaria(int num, string t, double s) {
+        numeroCuenta = num;
+        titular = t;
+        saldo = s;
+    }
+
+    int getNumeroCuenta() { return numeroCuenta; }
+    
+    void depositar(double monto) {
+        if (monto > 0) {
+            saldo += monto;
+            cout << "Deposito realizado con exito.\n";
+        }
+    }
+
+    void retirar(double monto) {
+        if (monto <= saldo) {
+            saldo -= monto;
+            cout << "Retiro realizado con exito.\n";
+        } else {
+            cout << "Saldo insuficiente.\n";
+        }
+    }
+
+    void mostrarInfo() {
+        cout << "Cuenta Nro: " << numeroCuenta << " | Titular: " << titular << " | Saldo: $" << saldo << endl;
+    }
+};
+
+int main() {
+    vector<CuentaBancaria> cuentas;
+    int cant;
+
+    cout << "Ingrese cantidad de cuentas a registrar: ";
+    cin >> cant;
+
+    for (int i = 0; i < cant; i++) {
+        int num;
+        string titular;
+        double saldo;
+        cout << "\n--- Cuenta " << i + 1 << " ---\n";
+        cout << "Numero de Cuenta: "; cin >> num;
+        cout << "Titular: "; cin >> titular;
+        cout << "Saldo inicial: "; cin >> saldo;
+        cuentas.push_back(CuentaBancaria(num, titular, saldo));
+    }
+
+    cout << "\n=== ESTADO DE LAS CUENTAS ===\n";
+    for (int i = 0; i < cuentas.size(); i++) {
+        cuentas[i].mostrarInfo();
+    }
+
+    // Seccion para realizar operaciones
+    int numBuscado, opcion;
+    cout << "\nIngrese el Numero de Cuenta para operar: ";
+    cin >> numBuscado;
+
+    int pos = -1;
+    for (int i = 0; i < cuentas.size(); i++) {
+        if (cuentas[i].getNumeroCuenta() == numBuscado) {
+            pos = i;
+            break;
+        }
+    }
+
+    if (pos != -1) {
+        cout << "\n1. Depositar\n2. Retirar\nSeleccione opcion: ";
+        cin >> opcion;
+        double monto;
+        cout << "Monto: ";
+        cin >> monto;
+
+        if (opcion == 1) cuentas[pos].depositar(monto);
+        else if (opcion == 2) cuentas[pos].retirar(monto);
+
+        cout << "\nEstado actualizado de la cuenta:\n";
+        cuentas[pos].mostrarInfo();
+    } else {
+        cout << "Cuenta no encontrada.\n";
+    }
+
+    return 0;
+}

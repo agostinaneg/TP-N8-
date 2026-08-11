@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Persona {
+private:
+    string nombre;
+    int edad;
+
+public:
+    Persona(string n, int e) {
+        nombre = n;
+        edad = e;
+    }
+
+    string getNombre() { return nombre; }
+    int getEdad() const { return edad; }
+
+    void mostrarInfo() {
+        cout << "Nombre: " << nombre << " | Edad: " << edad << endl;
+    }
+};
+
+// Funcion para ordenar con std::sort de menor a mayor
+bool compararPorEdad(const Persona &p1, const Persona &p2) {
+    return p1.getEdad() < p2.getEdad();
+}
+
+int main() {
+    vector<Persona> personas;
+    int cant;
+
+    cout << "Cuantas personas va a ingresar?: ";
+    cin >> cant;
+
+    for (int i = 0; i < cant; i++) {
+        string nom;
+        int edad;
+        cout << "Nombre de la persona " << i + 1 << ": ";
+        cin >> nom;
+        cout << "Edad: ";
+        cin >> edad;
+        personas.push_back(Persona(nom, edad));
+    }
+
+    sort(personas.begin(), personas.end(), compararPorEdad);
+
+    cout << "\n=== PERSONAS ORDENADAS POR EDAD (ASCENDENTE) ===\n";
+    for (int i = 0; i < personas.size(); i++) {
+        personas[i].mostrarInfo();
+    }
+
+    return 0;
+}
+Ej 2
